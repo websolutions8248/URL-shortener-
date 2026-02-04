@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-link"></i>
+                <span>ShortURL</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="loadPage('home')" class="active">Home</a>
+                <a href="#" onclick="loadPage('dashboard')">Dashboard</a>
+                <a href="#" onclick="loadPage('analytics')">Analytics</a>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="content">
+            <!-- Content loaded dynamically -->
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 URL Shortener. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

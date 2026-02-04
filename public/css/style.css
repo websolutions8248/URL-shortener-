@@ -1,0 +1,94 @@
+/* General Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+body { background-color: #f0f2f5; }
+
+/* Navbar */
+.navbar {
+    background: #001d40; /* TinyURL Dark Blue */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+.logo { font-size: 24px; font-weight: bold; color: #1eb9fa; }
+.nav-list { list-style: none; display: flex; gap: 20px; }
+.nav-list a { color: white; text-decoration: none; font-weight: 500; }
+.menu-toggle { display: none; font-size: 24px; cursor: pointer; }
+
+/* Main Container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* White Card Design (Image 1 Style) */
+.shortener-card {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.card-tabs { display: flex; background: #f8f9fa; border-bottom: 1px solid #ddd; }
+.tab { flex: 1; padding: 15px; text-align: center; cursor: pointer; color: #555; font-weight: bold; }
+.tab.active { background: white; color: #001d40; border-top: 3px solid #001d40; }
+
+.card-body { padding: 30px; }
+
+/* Form Inputs */
+.form-group { margin-bottom: 20px; }
+.form-row { display: flex; gap: 15px; }
+.half { flex: 1; }
+
+label { display: block; font-weight: bold; margin-bottom: 8px; color: #001d40; }
+.required { color: red; }
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+small { color: #666; font-size: 12px; }
+
+/* Green Button */
+.btn-green {
+    width: 100%;
+    background-color: #2ea854; /* TinyURL Green */
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-green:hover { background-color: #258e46; }
+
+.terms-text { font-size: 12px; margin-top: 15px; color: #666; text-align: center; }
+
+/* Mobile Menu CSS */
+@media (max-width: 768px) {
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #001d40;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    .nav-list.active { display: flex; }
+    .menu-toggle { display: block; }
+    .form-row { flex-direction: column; }
+}
+
+/* Footer */
+footer { background: #001d40; color: white; text-align: center; padding: 20px; margin-top: 40px; }

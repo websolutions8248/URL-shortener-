@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+
+<div class="main-container">
+    
+    <div class="shortener-card">
+        <div class="card-tabs">
+            <div class="tab active"><i class="fas fa-link"></i> Shorten a Link</div>
+            <div class="tab"><i class="fas fa-qrcode"></i> QR Code</div>
+        </div>
+
+        <div class="card-body">
+            <form action="/shortUrls" method="POST">
+                
+                <div class="form-group">
+                    <label>Long URL <span class="required">*</span></label>
+                    <input type="url" name="fullUrl" placeholder="Paste long URL here" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Domain</label>
+                        <select disabled>
+                            <option>tinyurl.com</option>
+                        </select>
+                    </div>
+                    <div class="form-group half">
+                        <label>Alias (optional)</label>
+                        <input type="text" name="alias" placeholder="Add alias here">
+                        <small>Must be at least 5 characters</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-green">Shorten Link</button>
+
+                <p class="terms-text">
+                    By clicking Shorten Link, you agree with our <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>.
+                </p>
+            </form>
+
+            <% if (shortUrls.length > 0) { %>
+                <div class="recent-links">
+                    <h3>Recent Links</h3>
+                    <% shortUrls.forEach(shortUrl => { %>
+                        <div class="link-item">
+                            <a href="<%= shortUrl.short %>" target="_blank" class="short-link"><%= shortUrl.short %></a>
+                            <span class="clicks"><i class="fas fa-chart-bar"></i> <%= shortUrl.clicks %></span>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Why use this URL Shortener?</h2>
+        <p>This is a fast and simple tool to make your long links short and manageable. Perfect for social media, emails, and SMS.</p>
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>

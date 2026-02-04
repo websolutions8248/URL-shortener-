@@ -1,0 +1,208 @@
+// Home page functionality
+function initializeHomePage() {
+    // Enable custom alias input
+    const aliasToggle = document.getElementById('customAliasToggle');
+    const aliasInput = document.getElementById('customAlias');
+    
+    if (aliasToggle && aliasInput) {
+        aliasToggle.addEventListener('change', function() {
+            aliasInput.disabled = !this.checked;
+            if (!this.checked) aliasInput.value = '';
+        });
+    }
+}
+
+// Shorten URL function
+async function shortenURL() {
+    const urlInput = document.getElementById('urlInput');
+    const btn = document.getElementById('shortenBtn');
+    const originalText = btn.innerHTML;
+    
+    if (!urlInput.value) {
+        alert('Please enter a URL');
+        return;
+    }
+    
+    try {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Shortening...';
+        btn.disabled = true;
+        
+        const data = {
+            url: urlInput.value,
+            expiry: document.getElementById('expiry').value
+        };
+        
+        if (document.getElementById('customAliasToggle').checked) {
+            data.alias = document.getElementById('customAlias').value;
+        }
+        
+        // In production, replace with actual API endpoint
+        const response = await fetch('api/shorten.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            displayResult(result);
+        } else {
+            alert(result.error || 'Failed to shorten URL');
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+        // For demo, show mock result
+        displayMockResult(urlInput.value);
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
+
+function displayResult(data) {
+    const resultDiv = document.getElementById('result');
+    const output = document.getElementById('shortUrlOutput');
+    const visitLink = document.getElementById('visitLink');
+    const clickCount = document.getElementById('clickCount');
+    const expiryDays = document.getElementById('expiryDays');
+    
+    output.value = data.shortUrl;
+    visitLink.href = data.shortUrl;
+    clickCount.textContent = data.clicks;
+    expiryDays.textContent = data.expiryDate ? 
+        Math.ceil((new Date(data.expiryDate) - new Date()) / (1000 * 60 * 60 * 24)) : 
+        'Never';
+    
+    resultDiv.style.display = 'block';
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+function displayMockResult(url) {
+    const shortCode = Math.random().toString(36).substr(2, 6);
+    const expiryDays = document.getElementById('expiry').value;
+    
+    const mockData = {
+        success: true,
+        shortUrl: `${window.location.origin}/${shortCode}`,
+        clicks: 0,
+        expiryDate: expiryDays > 0 ? 
+            new Date(Date.now() + expiryDays * 24 * 60 * 60 * 1000).toISOString() : 
+            null
+    };
+    
+    displayResult(mockData);
+}
+
+function copyToClipboard() {
+    const output = document.getElementById('shortUrlOutput');
+    output.select();
+    output.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    
+    const btn = event.target.closest('button');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    btn.style.background = '#00c853';
+    
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+    }, 2000);
+}
+
+function shareURL() {
+    const url = document.getElementById('shortUrlOutput').value;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Check out this short URL',
+            text: 'I shortened this URL using ShortURL',
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(url);
+        alert('URL copied to clipboard!');
+    }
+}
+
+// Dashboard functionality
+function initializeDashboard() {
+    loadDashboardStats();
+    loadRecentURLs();
+}
+
+async function loadDashboardStats() {
+    // Mock data - replace with API call
+    document.getElementById('totalUrls').textContent = '12';
+    document.getElementById('totalClicks').textContent = '1,245';
+    document.getElementById('activeUsers').textContent = '45';
+}
+
+function loadRecentURLs() {
+    const urlList = document.getElementById('urlList');
+    const urls = [
+        { code: 'demo123', url: 'https://example.com/page', clicks: 150, created: '2024-01-01' },
+        { code: 'test456', url: 'https://google.com/search', clicks: 89, created: '2024-01-02' },
+        { code: 'myblog', url: 'https://myblog.com/article', clicks: 45, created: '2024-01-03' }
+    ];
+    
+    urlList.innerHTML = urls.map(url => `
+        <div class="url-item">
+            <div class="url-info">
+                <h4>/${url.code}</h4>
+                <a href="${url.url}" target="_blank">${url.url.substring(0, 50)}...</a>
+            </div>
+            <div class="url-stats">
+                <span><i class="fas fa-mouse-pointer"></i> ${url.clicks} clicks</span>
+                <span><i class="far fa-calendar"></i> ${url.created}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function exportData() {
+    alert('Export functionality would be implemented here');
+}
+
+function clearAll() {
+    if (confirm('Are you sure you want to clear all URLs?')) {
+        alert('All URLs cleared (demo)');
+        loadDashboardStats();
+        loadRecentURLs();
+    }
+}
+
+// Analytics functionality
+function initializeAnalytics() {
+    loadAnalyticsData();
+    
+    // Add event listeners for filters
+    document.getElementById('timeRange')?.addEventListener('change', loadAnalyticsData);
+    document.getElementById('urlFilter')?.addEventListener('change', loadAnalyticsData);
+}
+
+async function loadAnalyticsData() {
+    // Mock data - replace with API call
+    const tableBody = document.getElementById('analyticsTable');
+    
+    const data = [
+        { date: '2024-01-01', clicks: 10, unique: 8, avgTime: '2:30', bounceRate: '45%' },
+        { date: '2024-01-02', clicks: 15, unique: 12, avgTime: '3:15', bounceRate: '40%' },
+        { date: '2024-01-03', clicks: 20, unique: 18, avgTime: '2:45', bounceRate: '38%' },
+        { date: '2024-01-04', clicks: 25, unique: 22, avgTime: '4:20', bounceRate: '35%' },
+        { date: '2024-01-05', clicks: 30, unique: 28, avgTime: '3:50', bounceRate: '32%' }
+    ];
+    
+    tableBody.innerHTML = data.map(row => `
+        <tr>
+            <td>${row.date}</td>
+            <td>${row.clicks}</td>
+            <td>${row.unique}</td>
+            <td>${row.avgTime}</td>
+            <td>${row.bounceRate}</td>
+        </tr>
+    `).join('');
+                   }

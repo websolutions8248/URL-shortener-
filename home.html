@@ -1,0 +1,260 @@
+<div class="home-page">
+    <div class="hero">
+        <h1>Shorten Your Links</h1>
+        <p>Create short, memorable URLs for your long links</p>
+    </div>
+    
+    <div class="url-form">
+        <div class="input-group">
+            <input type="url" id="urlInput" placeholder="Paste your long URL here..." required>
+            <button onclick="shortenURL()" id="shortenBtn">
+                <i class="fas fa-magic"></i> Shorten URL
+            </button>
+        </div>
+        <div class="options">
+            <label>
+                <input type="checkbox" id="customAliasToggle"> Custom alias
+            </label>
+            <input type="text" id="customAlias" placeholder="custom-alias" disabled>
+            <select id="expiry">
+                <option value="7">7 days</option>
+                <option value="30" selected>30 days</option>
+                <option value="365">1 year</option>
+                <option value="0">Never</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="result" id="result" style="display: none;">
+        <h3>Your Short URL:</h3>
+        <div class="short-url">
+            <input type="text" id="shortUrlOutput" readonly>
+            <button onclick="copyToClipboard()" class="copy-btn">
+                <i class="far fa-copy"></i> Copy
+            </button>
+            <a href="#" id="visitLink" target="_blank" class="visit-btn">
+                <i class="fas fa-external-link-alt"></i> Visit
+            </a>
+        </div>
+        <div class="url-info">
+            <p><i class="fas fa-chart-line"></i> <span id="clickCount">0</span> clicks</p>
+            <p><i class="far fa-clock"></i> Expires in <span id="expiryDays">30</span> days</p>
+            <button onclick="shareURL()" class="share-btn">
+                <i class="fas fa-share-alt"></i> Share
+            </button>
+        </div>
+    </div>
+    
+    <div class="features">
+        <h2>Why Choose Our URL Shortener?</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>Fast & Reliable</h3>
+                <p>Lightning-fast redirection with 99.9% uptime</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Analytics</h3>
+                <p>Track clicks, locations, and referral sources</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure</h3>
+                <p>HTTPS encryption and malware protection</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-customize"></i>
+                <h3>Custom URLs</h3>
+                <p>Create branded short links</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.home-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    color: #4a00e0;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.url-form {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input-group button {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.input-group button:hover {
+    transform: translateY(-2px);
+}
+
+.options {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.options input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.options select {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+}
+
+.result {
+    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 5px solid #4a00e0;
+    margin-bottom: 30px;
+}
+
+.short-url {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.short-url input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #4a00e0;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #4a00e0;
+    font-weight: bold;
+    background: white;
+}
+
+.copy-btn, .visit-btn, .share-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.copy-btn {
+    background: #4a00e0;
+    color: white;
+}
+
+.visit-btn {
+    background: #00c853;
+    color: white;
+    text-decoration: none;
+}
+
+.share-btn {
+    background: #2196f3;
+    color: white;
+    margin-top: 10px;
+}
+
+.url-info {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.features h2 {
+    text-align: center;
+    margin: 40px 0 30px;
+    color: #333;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.feature {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+}
+
+.feature i {
+    font-size: 40px;
+    color: #4a00e0;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.feature p {
+    color: #666;
+    line-height: 1.6;
+}
+  </style>
